@@ -12,9 +12,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,12 +31,9 @@ import kr.happyjob.study.system.model.ComnCodUtilModel;
 
 
 @Controller
-
 public class LoginController {
 
    // 커밋 테스트 됌 -동철
-   
-   
    // Set logger
    private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -62,9 +59,6 @@ public class LoginController {
 * @throws Exception
 */
 
-   
-   
-   
    @RequestMapping("login.do")
    public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
@@ -102,7 +96,7 @@ public class LoginController {
       logger.info("+ Start LoginController.loginProc.do");
 	  logger.info("   - ParamMap : " + paramMap);
 	    
-	      // 사용자 로그인
+	  // 사용자 로그인
 	  LgnInfoModel lgnInfoModel = loginService.loginProc(paramMap);
 	  
 	  String result;
@@ -112,58 +106,51 @@ public class LoginController {
 	  if (lgnInfoModel != null) {
 	     result = "SUCCESS";
 	     resultMsg = "사용자 로그인 정보가 일치 합니다.";
-	     System.out.println("asdf" + lgnInfoModel.getApproval_cd());
-	     System.out.println("y".equals(lgnInfoModel.getApproval_cd()));
-	     System.out.println("asdf" + lgnInfoModel.getApproval_cd());
-	     System.out.println("n".equals(lgnInfoModel.getApproval_cd()));
-	     // 사용자 메뉴 권한 조회
-	     paramMap.put("usr_sst_id", lgnInfoModel.getUsr_sst_id());
-	     paramMap.put("userType",lgnInfoModel.getMem_author());
-	     // 메뉴 목록 조회 0depth
+
+	     // 사용자 메뉴 권한 조회: doSelectLogin 에서 가져오면 된다. (24.5.30)   
+	     System.out.println("user_type:" + lgnInfoModel.getUser_type());
+	     paramMap.put("user_type", lgnInfoModel.getUser_type());
+	     // 메뉴 목록 조회 0depth:  dao - listUsrMnuAtrt  
 	     List<UsrMnuAtrtModel> listUsrMnuAtrtModel = loginService.listUsrMnuAtrt(paramMap);
 	     // 메뉴 목록 조회 1depth
 	     for(UsrMnuAtrtModel list : listUsrMnuAtrtModel){
 	        Map<String, Object> resultMapSub = new HashMap<String, Object>();
-	        resultMapSub.put("lgn_Id", paramMap.get("lgn_Id")); 
-	        resultMapSub.put("hir_mnu_id", list.getMnu_id());
-	        resultMapSub.put("userType",lgnInfoModel.getMem_author());
+	        resultMapSub.put("loginID", paramMap.get("loginID")); 
+	        resultMapSub.put("hir_mnu_id", list.getMnu_id()); // 0 depth
+	        resultMapSub.put("user_type",lgnInfoModel.getUser_type());
+	        
 	        list.setNodeList(loginService.listUsrChildMnuAtrt(resultMapSub));
 	     }
 	     
-	     session.setAttribute("loginId",lgnInfoModel.getLgn_id());                     //   로그인 ID
-	     session.setAttribute("userNm",lgnInfoModel.getUsr_nm());                  // 사용자 성명
+	     //세션 설정
+	     session.setAttribute("loginId", lgnInfoModel.getLoginID());                     //   로그인 ID
+	     session.setAttribute("name", lgnInfoModel.getName());                  // 사용자 성명
+	     session.setAttribute("user_type", lgnInfoModel.getUser_type());            // 로그린 사용자 권란       A: 관리자       B: 기업회원    C:일반회원
 	     session.setAttribute("usrMnuAtrt", listUsrMnuAtrtModel);
-	     session.setAttribute("userType", lgnInfoModel.getMem_author());            // 로그린 사용자 권란       A: 관리자       B: 기업회원    C:일반회원
-	     session.setAttribute("serverName", request.getServerName());
+	     //session.setAttribute("serverName", request.getServerName());
 	
-	     resultMap.put("loginId",lgnInfoModel.getLgn_id()); 
-	     resultMap.put("userNm",lgnInfoModel.getUsr_nm()); 
+	     resultMap.put("loginId",lgnInfoModel.getLoginID()); 
+	     resultMap.put("name",lgnInfoModel.getName()); 
+	     resultMap.put("user_type", lgnInfoModel.getUser_type());
+	     //SELECT * FROM tm_mnu_mst;
 	     resultMap.put("usrMnuAtrt", listUsrMnuAtrtModel);
-	     resultMap.put("userType", lgnInfoModel.getMem_author());
-	     resultMap.put("serverName", request.getServerName());
-	     
+	     //resultMap.put("serverName", request.getServerName());
+	 
 	} else {
-
          result = "FALSE";
          resultMsg = "사용자 로그인 정보가 일치하지 않습니다.";
     }
    
-            
-    
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
     resultMap.put("serverName", request.getServerName());
   
-  
-  
-  
-  logger.info("+ End LoginController.loginProc.do");
+    logger.info("+ End LoginController.loginProc.do");
 
       return resultMap;
    }
    
-   
-   /**
+ /**
 * 로그아웃
 * @param request
 * @param response
@@ -176,17 +163,18 @@ public class LoginController {
       ModelAndView mav = new ModelAndView();
       session.invalidate();
       mav.setViewName("redirect:/login.do");
-      
+      	
       return mav;
    }
+   
    /*회원가입*/
    @RequestMapping("register.do")
-   @ResponseBody
+   @ResponseBody   //@RequestParam Map<String, Object> paramMap
    public Map<String, Object> registerUser(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception{
+
 	   logger.info("+ Start " + className + ".registerUser");
 	   logger.info("   - paramMap : " + paramMap);
-		
 	   String action = (String)paramMap.get("action");
 	   String result = "SUCCESS";
 	   String resultMsg;
@@ -200,30 +188,18 @@ public class LoginController {
 		   result = "FAIL";
 		   resultMsg = "가입 요청 실패";
 	   }
-	   
-	   
-	   // login ID 스킬 delete
-	   
-	   // insert
-	   
-	   //paramMap
-	   
-	   
-	   //전문기술
+
+
 	   List<ComnCodUtilModel> lg = ComnCodUtil.getComnCod("LanguageCD");
 	   
 	   for(ComnCodUtilModel lgitem : lg) {
 		   String groupitem = lgitem.getGrp_cod();
 		   String dtlitem = lgitem.getDtl_cod();
-		   
 		   try {
 			   String paramitem = (String) paramMap.get(dtlitem);
-			   
 			   paramMap.put("skillgrpcd", groupitem);
 			   paramMap.put("skilldtlcd", dtlitem);
-			   
-			   //insert 
-			   
+
 		   } catch (Exception e) {
 			   
 		   }
@@ -237,12 +213,9 @@ public class LoginController {
 		   
 		   try {
 			   String paramitem = (String) paramMap.get(dtlitem);
-			   
 			   paramMap.put("skillgrpcd", groupitem);
 			   paramMap.put("skilldtlcd", dtlitem);
-			   
-			   //insert 
-			   
+   
 		   } catch (Exception e) {
 			   
 		   }
@@ -287,9 +260,6 @@ public class LoginController {
 		   }
 	   }
 	   
-	   
-	   
-	   
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   resultMap.put("result", result);
 	   resultMap.put("resultMsg", resultMsg);
@@ -300,14 +270,14 @@ public class LoginController {
    }
    
    
-   /*loginID 중복체크*/
-   @RequestMapping(value="check_loginID", method=RequestMethod.POST)
+   /*loginID 중복체크 - 5.31 확인 중*/
+   @RequestMapping(value="doCheckDuplicLoginID.do")
    @ResponseBody
-   public int check_loginID(LgnInfoModel model) throws Exception{
-	   
-	   logger.info("+ Start " + className + ".loginID_check");
-	   int result = loginService.check_loginID(model);
-	   logger.info("+ End " + className + ".loginID_check");
+   public int doCheckDuplicLoginID(@RequestParam Map<String, Object> paramMap) throws Exception{
+	   logger.info("+ Start " + className + ".doCheckDuplicLoginID");
+	   System.out.println("doCheckDuplicLoginID.do:"+paramMap);
+	   int result = loginService.doCheckDuplicLoginID(paramMap);
+	   logger.info("+ End " + className + ".doCheckDuplicLoginID");
 	   return result;
    }
    
@@ -377,8 +347,6 @@ public class LoginController {
       return resultMap;
      
    }
-   
-   
    
    //사용자 pw 조회
    @RequestMapping("selectFindInfoPw.do")
@@ -456,7 +424,6 @@ public class LoginController {
 	  System.out.println(resultMap);*/
 	  
 	  logger.info("+ End " + className + ".registerIdCheck");
-	   
 	   return resultMap;
    }
    

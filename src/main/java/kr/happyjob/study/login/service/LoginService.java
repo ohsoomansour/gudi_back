@@ -12,24 +12,23 @@ import kr.happyjob.study.login.model.UsrMnuChildAtrtModel;
 
 
 public interface LoginService {
-	
-	/** 사용자 로그인 체크*/
-	public String checkLogin(Map<String, Object> paramMap) throws Exception;
+	/*loginID 중복체크 - 24.5.31 osm수정*/
+	public int doCheckDuplicLoginID(Map<String, Object> paramMap) throws Exception;
 	
 	/** 사용자 로그인 */
 	public LgnInfoModel loginProc(Map<String, Object> paramMap) throws Exception;
 	
-	/** 사용자 메뉴 권한 */
-	public List<UsrMnuAtrtModel> listUsrMnuAtrt(Map<String, Object> paramMap) throws Exception;
-	
-	/**  사용자 자식 메뉴 권한 */
+	/**  사용자 자식 메뉴 권한: 5.30 확인 */
 	public List<UsrMnuChildAtrtModel> listUsrChildMnuAtrt(Map<String, Object> paramMap) throws Exception;
 	
-	/** 사용자 회원가입*/
+	/** ###################사용자 회원가입###################*/
 	public int registerUser(Map<String, Object> paramMap) throws Exception;
+
+	/** 사용자 메뉴 권한: 5.30 osm 확인*/
+	public List<UsrMnuAtrtModel> listUsrMnuAtrt(Map<String, Object> paramMap) throws Exception;
 	
-	/*loginID 중복체크*/
-	public int check_loginID(LgnInfoModel model) throws Exception;
+	/** 사용자 로그인 체크*/
+	public String checkLogin(Map<String, Object> paramMap) throws Exception;
 	
 	/*이메일 중복체크*/
 	public int check_email(LgnInfoModel model) throws Exception;
@@ -43,8 +42,8 @@ public interface LoginService {
 	/** 사용자 PW 찾기 ID 체크*/
 	public LgnInfoModel registerIdCheck(Map<String, Object> paraMap) throws Exception;
 	
-	/* 이력서 파일 업로드 */
-	void insertFile(Map<String, Object> paramMap, HttpServletRequest request) throws Exception;
+	/* 이력서 파일 업로드 *
+	void insertFile(Map<String, Object> paramMap, HttpServletRequest request) throws Exception;/
 	
 	void insertResume(Map<String, Object> paramMap);
 	

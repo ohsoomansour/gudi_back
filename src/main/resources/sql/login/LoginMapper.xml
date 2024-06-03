@@ -13,7 +13,7 @@
      </select>
      
    
-   <!-- 사용자 로그인 -->
+   <!-- 사용자 로그인 
    <select id="selectLogin" resultType="kr.happyjob.study.login.model.LgnInfoModel">
       /*kr.happy.study.login.dao.LoginDao.selectLogin*/
       SELECT  loginID as lgn_id
@@ -22,7 +22,22 @@
       FROM tb_userinfo 
      WHERE loginID = #{lgn_Id}
         AND password = #{pwd}
+     </select>-->
+     <!--  24.5.30 osm 수정 -->
+     <select id="doSelectLogin"  resultType="kr.happyjob.study.login.model.LgnInfoModel" >
+     	/*kr.happy.study.login.dao.LoginDao.selectLogin*/
+     	SELECT 
+     		loginID,
+     		user_type,
+     		name,
+     		email,
+     		hp
+     	FROM 
+     		tb_userinfo
+     	WHERE 
+     		loginID=#{loginID} AND password=#{password}
      </select>
+     
      
      
 <!-- 사용자 메뉴 권한 -->
@@ -44,7 +59,7 @@
                              SELECT  1
                              FROM  tn_usr_mnu_atrt tb
                              WHERE ta.mnu_id = tb.mnu_id
-                                  AND tb.user_type = #{userType}
+                                  AND tb.user_type = #{user_type}
                            )
                   AND ta.lvl=0
                ORDER BY ta.odr
@@ -52,7 +67,7 @@
      
      <!-- 사용자 자식 메뉴 권한 -->
    <select id="listUsrChildMnuAtrt" resultType="kr.happyjob.study.login.model.UsrMnuChildAtrtModel">
-      /*kr.happy.study.login.dao.LoginDao.listUsrChildMnuAtrt*/
+      /*kr.kosmo.jobkorea.login.dao.LoginDao.listUsrChildMnuAtrt*/
          SELECT  ta.mnu_id
                ,   ta.hir_mnu_id
                ,   ta.mnu_nm
@@ -68,103 +83,51 @@
                           SELECT  1
                             FROM  tn_usr_mnu_atrt tb
                           WHERE ta.mnu_id = tb.mnu_id
-                               AND tb.user_type = #{userType}
+                               AND tb.user_type = #{user_type}
                      )
             AND ta.lvl=1
             AND hir_mnu_id = #{hir_mnu_id}
          ORDER BY ta.odr
      </select>
-     
-     <!-- 회원가입 -->
-     <insert id="registerUser" parameterType="java.util.Map">
+   
+      <insert id="registerUser" parameterType="java.util.Map">
      /*kr.happy.study.login.dao.LoginDao.registerUser*/
-     INSERT INTO tb_userinfo (
-     							loginID
-     						,	user_type
-     						,	name
-     						,	password
-     						,	email_cop
-     						,	birthday
-     						,	gender_cd
-     						,	user_tel1
-     						,	user_tel2
-     						,	user_tel3
-     						,	user_zipcode
-     						,	user_address
-     						,	user_dt_address
-							,	consult_yn
-     						,	del_cd
-     						,	div_cd
-     						,	user_email
-     						,	user_company
-     						,	approval_cd
-     						,	salary
-     						,	career_yn
-     						,	career_mm
-     						,	singular_facts
-     						,	user_describe
-     						,	user_grade
-     						,	user_hope_area1
-     						,	user_hope_area2
-     						,	user_hope_area3
-     						,	user_contents
-     						,	user_hope_work
-     						) VALUES (
-     								#{loginID}
-								,	#{user_type}
-								,	#{name}  
-								,	#{password}  
-								,	#{email_cop}
-								,	#{birthday}    
-								,	#{gender_cd}  
-								,	#{user_tel1}  
-								,	#{user_tel2}  
-								,	#{user_tel3}  
-								,	#{user_zipcode}  
-								,	#{user_address}  
-								,	#{user_dt_address}
-								,	#{consult_yn}					
-								,	#{del_cd}
-								,	#{div_cd}    	
-								,	#{user_email}  
-								,	#{user_company}		
-								,	#{approval_cd}			
-     							,	#{salary}								
-								,	#{career_yn}								
-								,	#{career_mm}
-	     						,	#{singular_facts}
-								,	#{user_describe}
-	     						,	#{grade}
-	     						,	#{area1}
-	     						,	#{area2}
-	     						,	#{area3}
-	     						,	#{user_contents}
-	     						,	#{user_hope_work}
-     						)
-     
-     
+     INSERT INTO tb_userinfo
+     (
+			loginID
+		,	user_type
+		,	name
+		,	password
+		,	email
+		,   hp
+     					
+	) 
+		VALUES 
+	(
+			#{loginID}
+		,	#{user_type}
+		,	#{name}  
+		,	#{password}  
+		,	#{email}
+		,   #{hp}
+
+ 	)
+
      </insert>
-     
-     <!-- 유저전문기술(tb_userskill 테이블에 따로 저장) -->
-<!--      <insert id="registerUserSkill" parameterType="java.util.Map">
-     INSERT INTO tb_userskill (
-     							
-     						VALUES (
-     							
-								
-     						)
-     
-     
-     </insert>
-      -->
+      <!-- 24.5.30  osooman 작성, (vue.js 기준) 중복 검사 -->
+      <select id="doCheckDuplicLoginID" resultType="int">
+      	SELECT count(*)
+        FROM tb_userinfo
+        WHERE loginID = #{loginID}
+      </select>
 
      
-     <!-- 중복 검사  loginID 중복검사 -->
+     <!-- 중복 검사  loginID 중복검사 
 	<select id="check_loginID" parameterType="String" resultType="int">
 		SELECT count(*)
 		FROM tb_userinfo
 		WHERE loginID = #{loginID}
-	</select>
+	</select> -->
 	
 	
 	<!-- 회원가입 이메일 중복 검사  -->

@@ -1,20 +1,17 @@
 package kr.happyjob.study.login.service;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+//import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import kr.happyjob.study.common.comnUtils.AESCryptoHelper;
-import kr.happyjob.study.common.comnUtils.ComnUtil;
-import kr.happyjob.study.common.comnUtils.FileUtilCho;
+//import kr.happyjob.study.common.comnUtils.FileUtilCho;
 /*import kr.happyjob.study.common.comnUtils.AESCryptoHelper;
 import kr.happyjob.study.common.comnUtils.ComnUtil;*/
 import kr.happyjob.study.login.dao.LoginDao;
@@ -31,6 +28,21 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private LoginDao loginDao;
 	
+	/**사용자 회원가입*/
+	@Override
+	public int registerUser(Map<String, Object> paramMap) throws Exception {
+		int ret = loginDao.registerUser(paramMap);
+		return ret;
+	}
+	
+	/**loginID 중복체크: 24.5.31 변경, osm 확인*/
+	@Override
+	public int doCheckDuplicLoginID(Map<String, Object> paramMap) throws Exception {
+		int result = loginDao.doCheckDuplicLoginID(paramMap);
+		return result;
+	}
+	
+	
 	/** 사용자 로그인 체크*/
 	public String checkLogin(Map<String, Object> paramMap) throws Exception {
 		return loginDao.checkLogin(paramMap);
@@ -38,19 +50,19 @@ public class LoginServiceImpl implements LoginService {
 	
 	/** 사용자 로그인 */
 	public LgnInfoModel loginProc(Map<String, Object> paramMap) throws Exception {
-		String password = paramMap.get("pwd").toString();
+		String password = paramMap.get("password").toString();
 		
 		//logger.info(" login before password : " + password);
 		//AES 방식 암호화
 		//password = AESCryptoHelper.encode( ComnUtil.AES_KEY, password);
 		
 		//logger.info(" login after password : " + password);
-		paramMap.put("pwd", password);
-		return loginDao.selectLogin(paramMap);
+		paramMap.put("password", password);
+		return loginDao.doSelectLogin(paramMap);
 	}
 	
 	
-	/**  사용자 메뉴 권한 */
+	/**  사용자 메뉴 권한: 24.5.30 2시 확인중... */
 	public List<UsrMnuAtrtModel> listUsrMnuAtrt(Map<String, Object> paramMap) throws Exception {	
 		return loginDao.listUsrMnuAtrt(paramMap);
 	}
@@ -59,21 +71,6 @@ public class LoginServiceImpl implements LoginService {
 	/**  사용자 자식 메뉴 권한 */
 	public List<UsrMnuChildAtrtModel> listUsrChildMnuAtrt(Map<String, Object> paramMap) throws Exception{
 		return loginDao.listUsrChildMnuAtrt(paramMap);
-
-	}
-	
-	/**사용자 회원가입*/
-	@Override
-	public int registerUser(Map<String, Object> paramMap) throws Exception {
-		int ret = loginDao.registerUser(paramMap);
-		return ret;
-	}
-	
-	/**loginID 중복체크*/
-	@Override
-	public int check_loginID(LgnInfoModel model) throws Exception {
-		int result = loginDao.check_loginID(model);
-		return result;
 	}
 	
 	@Override
@@ -110,9 +107,7 @@ public class LoginServiceImpl implements LoginService {
 		return list;
 	}*/
 
-	/* 이력서파일 업로드 */
-	
-
+	/* 이력서파일 업로드 
 	
 	@Override
 	public void insertFile(Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
@@ -126,7 +121,7 @@ public class LoginServiceImpl implements LoginService {
 		
 		// 파일 저장
 		String itemFilePath = dirPath+ File.separator; // 업로드 실제 경로 조립 (무나열생성)
-		FileUtilCho fileUtil = new FileUtilCho(multipartHttpServletRequest, "D:\\FileRepository", itemFilePath,"");
+		FileUtilCho fileUtil = new FileUtilCho(multipartHttpServletRequest, "D:\\FileRepository", itemFilePath);
 		Map<String, Object> fileInfo = fileUtil.uploadFiles(); // 실제 럽로드 처리
 		
 		// 데이터 저장
@@ -140,18 +135,13 @@ public class LoginServiceImpl implements LoginService {
 			// 파일 삭제
 			fileUtil.deleteFiles(fileInfo);
 			throw e;
-		}
-		
-		
+		}		
 	}
 	
 	@Override
 	public void insertResume(Map<String, Object> paramMap) {
 		LoginDao.insertResume(paramMap);
 		
-	}
-
-	
-
+	}*/
 
 }

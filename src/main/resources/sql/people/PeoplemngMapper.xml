@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.happyjob.study.adm.dao.peopleMngDao">
+	<select id="getAllUsersInfo"   resultType="RegiInfoModel">
+		/*전체 회원 - getAllUserInfo*/
+		SELECT * FROM tb_userinfo;
+	</select>
+
+	<select id="doGetUsersByUsertype"   resultType="RegiInfoModel">
+		/* 회원 유형에 따라 - doGetUsersByUsertype*/
+	 	SELECT * FROM tb_userinfo WHERE user_type=#{user_type} 
+	</select>
+	<select id="doSearchForUser"   resultType="RegiInfoModel"  >
+	/* 이름 또는 이메일 또는 로그인 아이디로 검색 기능*/
+		 SELECT 
+		 	* 
+		 FROM 
+		 	tb_userinfo
+	    WHERE 
+	    	name LIKE CONCAT ('%', #{search_word},  '%')  
+	    		OR email   LIKE CONCAT ('%', #{search_word}, '%') 
+	    		OR loginID LIKE CONCAT ('%', #{search_word}, '%') 
+	    		OR hp 	   LIKE CONCAT ('%', #{search_word}, '%')	
+	</select>
+</mapper>
