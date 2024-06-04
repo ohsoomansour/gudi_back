@@ -38,7 +38,11 @@ public class peopleMngServiceImpl implements peopleMngService{
 	public List<RegisterInfoModel> doSearchForUser(Map<String, Object> paramMap){
 		return pmg_dao.doSearchForUser(paramMap);
 	}
-	
+	//회원 업데이트
+	@Override
+	public void doUpdateUserInfo(Map<String, Object> paramMap){
+		pmg_dao.doUpdateUserInfo(paramMap);
+	}
 	
 	@Override
 	public int ban_user(Map<String, Object> paramMap) {

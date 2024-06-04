@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.happyjob.study.adm.model.RegisterInfoModel;
 import kr.happyjob.study.adm.model.RegisterListControlModel;
 import kr.happyjob.study.adm.service.peopleMngService;
+import kr.happyjob.study.login.service.LoginService;
 
 @Controller
 @RequestMapping("/adm/")
@@ -27,6 +28,9 @@ public class peopleMngContoller {
 
 	@Autowired
 	peopleMngService pmg_sv;
+	
+	@Autowired
+	LoginService loginService;
 	/**
 	@Autowired
 	RegisterService registerService; */
@@ -91,6 +95,21 @@ public class peopleMngContoller {
 		resultMap.put("users", users);
 		return resultMap;
 	}
+   /**
+	 *@author: osm
+	 *@date: 2024. 6.4 
+	 *@param:
+	 *@return:
+	 *
+	 * */
+	@RequestMapping("doUpdateUserInfo.do")
+	@ResponseBody
+	public void doUpdateUserInfo(@RequestParam Map<String, Object> paramMap) throws Exception  {
+		logger.info("doUpdateUserInfo" + paramMap);
+		//회원 타입 권한 : 로그인 시 a 타입에서 권한 확인이 됨
+		pmg_sv.doUpdateUserInfo(paramMap);
+	}
+	
 	
 	
 	@RequestMapping("studentControl.do")

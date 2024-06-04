@@ -12,7 +12,13 @@ public interface peopleMngService {
 	List<RegisterInfoModel> getAllUsersInfo();
 	//회원 유형별 회원 조회 
 	List<RegisterInfoModel> doGetUsersByUsertype(Map<String, Object> paramMap);
+	//회원 업데이트
 	List<RegisterInfoModel> doSearchForUser(Map<String, Object> paramMap);
+	/*2024.6.4*/
+	void doUpdateUserInfo(Map<String, Object> paramMap);
+	//회원 
+	
+	
 	
 /* 공통 */
 	

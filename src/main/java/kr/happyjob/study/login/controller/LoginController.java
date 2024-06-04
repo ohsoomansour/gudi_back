@@ -78,8 +78,8 @@ public class LoginController {
    }
 
    /**
-* 사용자 로그인을 처리한다.
-* 
+* 사용자 로그인을 처리한다. 
+* @Author  osm 24.6.3 수정
 * @param   Model result - Spring model object
 * @param   Map paramMap - Request Param object
 * @param   HttpServletRequest request - Servlet request object
@@ -87,6 +87,7 @@ public class LoginController {
 * @param   HttpSession session - Http session Object
 * @return   String - page navigator
 * @throws Exception
+* @function: 사용자가 로그인을 한다. 
 */
    @RequestMapping("loginProc.do")
    @ResponseBody
@@ -252,8 +253,6 @@ public class LoginController {
 			   
 			   paramMap.put("skillgrpcd", groupitem);
 			   paramMap.put("skilldtlcd", dtlitem);
-			   
-			   //insert 
 			   
 		   } catch (Exception e) {
 			   

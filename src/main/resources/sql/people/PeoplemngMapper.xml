@@ -23,4 +23,24 @@
 	    		OR loginID LIKE CONCAT ('%', #{search_word}, '%') 
 	    		OR hp 	   LIKE CONCAT ('%', #{search_word}, '%')	
 	</select>
+	<update id="doUpdateUserInfo">
+		/* 24.6.4 user_type, address, name, email가 존재 하면 회원 정보 수정  */
+	 UPDATE tb_userinfo
+	    <set>
+	        <if test="user_type != null">
+	            user_type = #{user_type},
+	        </if>
+	        <if test="address != null">
+	            address = #{address},
+	        </if>
+	        <if test="name != null">
+	            name = #{name},
+	        </if>
+	        <if test="email != null">
+	            email = #{email},
+	        </if>
+	    </set>
+    WHERE loginID = #{loginID}  
+	</update>
+	
 </mapper>

@@ -9,10 +9,14 @@ import kr.happyjob.study.adm.model.RegisterListControlModel;
 public interface peopleMngDao {
 	//회원 전체 조회
 	public List<RegisterInfoModel> getAllUsersInfo(); 
-	//회원 타입에 따라 회원 얻기 
+	//회원 타입에 따라 회원 얻기 : 
 	public List<RegisterInfoModel> doGetUsersByUsertype(Map<String, Object> paramMap);
-	//회원 검색
+	//회원 검색: osm 24.5.30 
 	public List<RegisterInfoModel> doSearchForUser(Map<String, Object> paramMap);
+	//회원 정보 업데이트 : osm 24.6.4
+	public void doUpdateUserInfo(Map<String, Object> paramMap);
+	
+	
 	
 	/* 공통 */
 	
