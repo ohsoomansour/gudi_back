@@ -74,9 +74,7 @@
 		<property name="validationQuery" value="select 1" />
 	</bean> 
 
-
-	
-			 	
+ 	
 	<!-- ## Mapper setup ## -->
 	<bean id="mysqlSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="mysqlDataSource" />

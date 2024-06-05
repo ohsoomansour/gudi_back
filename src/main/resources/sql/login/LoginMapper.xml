@@ -11,7 +11,7 @@
             WHERE   loginID = #{lgn_Id}
                AND  password = #{pwd}
      </select>
-     
+   <!-- 아이디를 통해 각 회원 정보 수정 -->  
    
    <!-- 사용자 로그인 
    <select id="selectLogin" resultType="kr.happyjob.study.login.model.LgnInfoModel">
@@ -101,9 +101,9 @@
 		,	email
 		,   hp
      					
-	) 
+	 ) 
 		VALUES 
-	(
+	 (
 			#{loginID}
 		,	#{user_type}
 		,	#{name}  
@@ -111,7 +111,7 @@
 		,	#{email}
 		,   #{hp}
 
- 	)
+ 	 )
 
      </insert>
       <!-- 24.5.30  osooman 작성, (vue.js 기준) 중복 검사 -->
