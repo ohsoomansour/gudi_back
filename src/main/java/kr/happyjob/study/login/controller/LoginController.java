@@ -14,9 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,14 +23,12 @@ import kr.happyjob.study.common.comnUtils.ComnCodUtil;
 import kr.happyjob.study.login.model.LgnInfoModel;
 import kr.happyjob.study.login.model.UsrMnuAtrtModel;
 import kr.happyjob.study.login.service.LoginService;
-import kr.happyjob.study.login.service.MailSendService;
-import kr.happyjob.study.system.model.ComnCodUtilModel;
 
+import kr.happyjob.study.system.model.ComnCodUtilModel;
 
 
 @Controller
 public class LoginController {
-
    // 커밋 테스트 됌 -동철
    // Set logger
    private final Logger logger = LogManager.getLogger(this.getClass());
@@ -43,10 +39,6 @@ public class LoginController {
    @Autowired
    LoginService loginService;
    
-   @Autowired
-   MailSendService mailSendService;
-
-
    /**
 * index 접속 시 로그인 페이지로 이동한다.
 * 
@@ -151,13 +143,14 @@ public class LoginController {
       return resultMap;
    }
    
- /**
-* 로그아웃
-* @param request
-* @param response
-* @param session
-* @return
-*/
+	 /**
+	* 로그아웃
+	* @author: osm 
+	* @param request
+	* @param response
+	* @param session
+	* @return
+	*/
    @RequestMapping(value = "/loginOut.do")
    public ModelAndView loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
                   
@@ -197,74 +190,6 @@ public class LoginController {
 	   }
 
 
-	   List<ComnCodUtilModel> lg = ComnCodUtil.getComnCod("LanguageCD");
-	   
-	   for(ComnCodUtilModel lgitem : lg) {
-		   String groupitem = lgitem.getGrp_cod();
-		   String dtlitem = lgitem.getDtl_cod();
-		   try {
-			   String paramitem = (String) paramMap.get(dtlitem);
-			   paramMap.put("skillgrpcd", groupitem);
-			   paramMap.put("skilldtlcd", dtlitem);
-
-		   } catch (Exception e) {
-			   
-		   }
-	   }   
-	   
-	   List<ComnCodUtilModel> web = ComnCodUtil.getComnCod("webCD");
-	   
-	   for(ComnCodUtilModel webitem : web) {
-		   String groupitem = webitem.getGrp_cod();
-		   String dtlitem = webitem.getDtl_cod();
-		   
-		   try {
-			   String paramitem = (String) paramMap.get(dtlitem);
-			   paramMap.put("skillgrpcd", groupitem);
-			   paramMap.put("skilldtlcd", dtlitem);
-   
-		   } catch (Exception e) {
-			   
-		   }
-	   }   
-	   
-	   List<ComnCodUtilModel> db = ComnCodUtil.getComnCod("DBCD");
-	   
-	   for(ComnCodUtilModel dbitem : db) {
-		   String groupitem = dbitem.getGrp_cod();
-		   String dtlitem = dbitem.getDtl_cod();
-		   
-		   try {
-			   String paramitem = (String) paramMap.get(dtlitem);
-			   
-			   paramMap.put("skillgrpcd", groupitem);
-			   paramMap.put("skilldtlcd", dtlitem);
-			   
-			   //insert 
-			   
-		   } catch (Exception e) {
-			   
-		   }
-	   }
-	   
-	   
-	   List<ComnCodUtilModel> ws = ComnCodUtil.getComnCod("WSCD");
-	   
-	   for(ComnCodUtilModel wsitem : ws) {
-		   String groupitem = wsitem.getGrp_cod();
-		   String dtlitem = wsitem.getDtl_cod();
-		   
-		   try {
-			   String paramitem = (String) paramMap.get(dtlitem);
-			   
-			   paramMap.put("skillgrpcd", groupitem);
-			   paramMap.put("skilldtlcd", dtlitem);
-			   
-		   } catch (Exception e) {
-			   
-		   }
-	   }
-	   
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   resultMap.put("result", result);
 	   resultMap.put("resultMsg", resultMsg);
@@ -292,18 +217,8 @@ public class LoginController {
 	   return result;
    }
    
-   /*이메일 중복체크*/
-   @RequestMapping(value="check_email", method=RequestMethod.POST)
-   @ResponseBody
-   public int check_email(LgnInfoModel model) throws Exception{
-	   logger.info("+ Start " + className + ".loginID_check");
-	   int result = loginService.check_email(model);
-	   logger.info("+ End " + className + ".loginID_check");
-	   return result;
-   }
-   /**
-*  사용자 id 찾기
-*/
+
+   /*사용자 id 찾기*/
    @RequestMapping("selectFindInfoId.do")
    @ResponseBody
    public Map<String, Object> selectFindInfoId(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -312,25 +227,12 @@ public class LoginController {
       logger.info("+ Start " + className + ".selectFindInfoId");
   
   logger.info("   - paramMap : " + paramMap);
-//      if(!paramMap.get("cpn_ctr").toString().equals("") && !paramMap.get("cpn_ctr").toString().equals("000")){
-//         paramMap.put("type", "P");
-//      }else if(!paramMap.get("eml").toString().equals("")){
-//         paramMap.put("type", "E");
-//      }
+
   String result;
   String resultMsg;
   LgnInfoModel resultModel= loginService.selectFindId(paramMap);
   
-/*  	if(paramMap.get("lgn_id") == null){
-		// 사용자 id 조회        
-		System.out.println(loginService.selectFindId(paramMap));
-		System.out.println("id조회!!!!!!!");
-	}else{
-		// 사용자 pw 조회
-		System.out.println(loginService.selectFindPw(paramMap));
-		System.out.println("pw조회!!!!!!!");
-	}*/
-  
+
   if (resultModel != null) {  
   result = "SUCCESS";
   resultMsg = "조회 성공";
@@ -387,11 +289,7 @@ public class LoginController {
   resultMap.put("result", result);
   resultMap.put("resultMsg", resultMsg);
   resultMap.put("resultModel", resultModelPw);
-  
-/*  System.out.println(result);
-  System.out.println(resultMsg);
-  System.out.println(resultModelPw);
-  System.out.println(resultMap);*/
+
   
   logger.info("+ End " + className + ".selectFindInfoPw");
       
@@ -399,139 +297,5 @@ public class LoginController {
      
    }
    
-   
-   /**사용자 PW 찾기 ID 체크*/
-   @RequestMapping("registerIdCheck.do")
-   @ResponseBody
-   public Map<String, Object> registerIdCheck(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-	         HttpServletResponse response, HttpSession session) throws Exception {
-	   
-	   logger.info("+ Start " + className + ".registerIdCheck");
-	   
-	   logger.info("   - paramMap : " + paramMap);
 
-	  String result;
-	  String resultMsg;
-	  LgnInfoModel registerIdCheck= loginService.registerIdCheck(paramMap);
-	  
-	  if (registerIdCheck != null) {  
-		  result = "SUCCESS";
-		  resultMsg = "조회 성공";
-
-		}else {
-		      result = "FALSE";
-		      resultMsg = "조회 실패";
-		  	  }
-	  
-	  Map<String, Object> resultMap = new HashMap<String, Object>();
-
-	  resultMap.put("result", result);
-	  resultMap.put("resultMsg", resultMsg);
-	  resultMap.put("resultModel", registerIdCheck);
-	  
-/*	  System.out.println(result);
-	  System.out.println(resultMsg);
-	  System.out.println(registerIdCheck);
-	  System.out.println(resultMap);*/
-	  
-	  logger.info("+ End " + className + ".registerIdCheck");
-	   return resultMap;
-   }
-   
-
-   /**메일 발송*/
-   @RequestMapping("sendmail.do")
-   @ResponseBody
-   public Map<String, Object> emailSendAuth(Model model, HttpServletRequest request, HttpServletResponse response, 
-		   	HttpSession session) throws Exception {
-	   logger.info("+ Start " + className + ".emailSendAuth");
-
-	   String emailNum = request.getParameter("email");
-	   String authNumId = "";
-	   authNumId = mailSendService.RandomNum();
-	   System.out.println(authNumId);
-	   System.out.println(emailNum);
-	   mailSendService.sendEmail(emailNum, authNumId);
-	   
-	   Map<String, Object> resultMap = new HashMap<String, Object>();
-	   
-	   //mv.setViewName("login/login");
-	   resultMap.put("emailNum", emailNum);
-	   resultMap.put("authNumId", authNumId);
-
-	   System.out.println(emailNum);
-	   System.out.println(authNumId);
-	   System.out.println(resultMap);
-	   logger.info("+ End " + className + ".emailSendAuth");
-   
-	   return resultMap;
-   }
-
-   @RequestMapping("checklist.do")
-   @ResponseBody
-   public Map<String, Object> checklist(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-         HttpServletResponse response, HttpSession session) throws Exception {
-
-      logger.info("+ Start LoginController.checklist.do");
-      logger.info("   - ParamMap : " + paramMap);
-   
-      //전문기술 공통코드 
-      List<ComnCodUtilModel> listlistCod = ComnCodUtil.getComnCod("LanguageCD");
-      List<ComnCodUtilModel> weblistCod = ComnCodUtil.getComnCod("webCD");
-      List<ComnCodUtilModel> dblistCod = ComnCodUtil.getComnCod("DBCD");
-      List<ComnCodUtilModel> wslistCod = ComnCodUtil.getComnCod("WSCD");
-      List<ComnCodUtilModel> sklcdlistCod = ComnCodUtil.getComnCod("SKLCD"); //등급
-      List<ComnCodUtilModel> areacdlistCod = ComnCodUtil.getComnCod("areaCD"); //희망근무지역
-      
-      Map<String, Object> resultMap = new HashMap<String, Object>();
-      resultMap.put("listlistCod", listlistCod);
-      resultMap.put("weblistCod", weblistCod);
-      resultMap.put("dblistCod", dblistCod);
-      resultMap.put("wslistCod", wslistCod);
-      resultMap.put("sklcdlistCod", sklcdlistCod);
-      resultMap.put("areacdlistCod", areacdlistCod);
-  
-      logger.info("+ End LoginController.checklist.do");
-      logger.info("확인 weblistCod:"+weblistCod);
-      logger.info("확인 sklcdlistCod:"+sklcdlistCod);
-      return resultMap;
-   }   
-   
-/*	@RequestMapping("saveFileTest.do")
-	@ResponseBody
-	public Map<String, Object> saveFileTest(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) throws Exception {
-		
-		logger.info("+ Start saveFileTest");
-		logger.info("   - paramMap : " + paramMap);
-		
-		String action = (String)paramMap.get("action");
-		String result = "SUCCESS";
-		String resultMsg = "저장 되었습니다.";
-		
-		
-		
-		if ("I".equals(action)) {
-			//CmntBbsService.insertCmntBbs(paramMap, request); // 게시글 신규 저장 
-			logger.info("  action  :  " + action);
-			LoginService.insertFile(paramMap,request);
-		} else if("U".equals(action)) {
-			//CmntBbsService.updateCmntBbs(paramMap, request); // 게시글 수정 저장
-			logger.info("  action  :  " + action);
-			LoginService.updateFile(paramMap,request);
-		} else {
-			logger.info("  action  :  " + action);
-			result = "FALSE";
-			resultMsg = "알수 없는 요청 입니다.";
-		}
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("result", result);
-		resultMap.put("resultMsg", resultMsg);
-		
-		logger.info("+ End saveFileTest");
-		
-		return resultMap;
-	}*/
-   
 }

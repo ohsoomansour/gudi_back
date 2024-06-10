@@ -1,0 +1,44 @@
+#test
+# Maven 및 Gradle 관련 디렉토리와 파일
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+# Eclipse 관련 파일
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA 관련 파일
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# MacOS 관련 파일
+.DS_Store
+
+# Windows 관련 파일
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux 관련 파일
+*~
+.nfs*
+
+# 로그 파일 및 임시 파일
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Java 관련 파일
+*.class
+
+# 환경 설정 파일
+.env

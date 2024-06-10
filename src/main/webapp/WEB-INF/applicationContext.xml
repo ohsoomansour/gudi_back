@@ -107,50 +107,13 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
 	
-	<!-- 메일보내기 -->
-	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="aaaaa@gmail.com" /> <!-- 이메일 전송 아이디_도현 -->
-		<property name="password" value="1q2w3e!Q@W#E" /> <!-- 이메일 전송 패스워드_도현 -->
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop> 
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.debug">false</prop>
-				<prop key="mail.smtp.ssl.enable">true</prop>
-				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>			
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-				<prop key="mail.smtp.socketFactory.fallback">false</prop>	
-			</props>
-		</property>
-	</bean>
 
-	<!-- auth interceptor -->
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/login.do" />
-			<mvc:exclude-mapping path="/loginProc.do" />
-			<mvc:exclude-mapping path="/selectFindInfo.do" />
-			<mvc:exclude-mapping path= "/register.do"/>
-			<mvc:exclude-mapping path="/updateFindPw.do" />
-			<mvc:exclude-mapping path="/system/selectUsrMgr.do" />
-			<mvc:exclude-mapping path="/adm/selectPrjMgr.do" />
-			<mvc:exclude-mapping path="/images/**" />
-			<mvc:exclude-mapping path="/css/**" />
-			<mvc:exclude-mapping path="/js/**" />
-			<mvc:exclude-mapping path="/fonts/**" />
-			<mvc:exclude-mapping path="/html/**" />
-			<bean class="kr.happyjob.study.common.interceptor.AuthCheckInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
+
 
 
 	 		 
 	<!--## 공통 Exception setup ## -->
-	<bean class="kr.happyjob.study.common.exception.CommonExceptionHandler" />
+
 
 	<!-- JSP를 이용해서 컨트롤러의 실행 결과를 보여주기 위한 설정 -->
 	<!-- <mvc:view-resolvers> <mvc:jsp prefix="/WEB-INF/view/" /> </mvc:view-resolvers> -->
