@@ -1,5 +1,7 @@
 package kr.happyjob.study.login.model;
 
+//import lombok.Data;
+
 public class UsrMnuChildAtrtModel {
 
 	// 메뉴 ID

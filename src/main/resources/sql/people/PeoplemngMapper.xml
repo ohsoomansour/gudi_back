@@ -3,16 +3,16 @@
 
 <mapper namespace="kr.happyjob.study.adm.dao.peopleMngDao">
 	<select id="getAllUsersInfo"   resultType="RegiInfoModel">
-		/*전체 회원 - getAllUserInfo*/
+		/* 24.6.2 osooman 전체 회원 - getAllUserInfo*/
 		SELECT * FROM tb_userinfo;
 	</select>
 
 	<select id="doGetUsersByUsertype"   resultType="RegiInfoModel">
-		/* 회원 유형에 따라 - doGetUsersByUsertype*/
+		/*24.6.3 osooman 회원 유형에 따라 - doGetUsersByUsertype*/
 	 	SELECT * FROM tb_userinfo WHERE user_type=#{user_type} 
 	</select>
 	<select id="doSearchForUser"   resultType="RegiInfoModel"  >
-	/* 이름 또는 이메일 또는 로그인 아이디로 검색 기능*/
+	/* 24.6.3  - 이름 또는 이메일 또는 로그인 아이디로 검색 기능*/
 		 SELECT 
 		 	* 
 		 FROM 
@@ -24,7 +24,7 @@
 	    		OR hp 	   LIKE CONCAT ('%', #{search_word}, '%')	
 	</select>
 	<update id="doUpdateUserInfo">
-		/* 24.6.4 user_type, name, email, hp가 존재 하면 회원 정보 수정  */
+		/* 24.6.4 osooman 작성 user_type, name, email, hp가 존재 하면 회원 정보 수정  */
 	 UPDATE tb_userinfo
 	    <set>
 	        <if test="user_type != null">

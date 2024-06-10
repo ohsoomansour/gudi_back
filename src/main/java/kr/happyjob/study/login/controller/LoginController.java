@@ -168,7 +168,13 @@ public class LoginController {
       return mav;
    }
    
-   /*회원가입*/
+  /** @author: osm 
+    * @date: 2024. 5.30
+    * @param: paramMap,  
+    * @function: 회원가입 
+    * @return: result("SUCCESS" 또는 "FAIL"), resultMsg = ("가입 요청 완료" 또는  "가입 요청 실패")
+    * @description:                
+    * */
    @RequestMapping("register.do")
    @ResponseBody   //@RequestParam Map<String, Object> paramMap
    public Map<String, Object> registerUser(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -268,7 +274,13 @@ public class LoginController {
 	   return resultMap;
    }
    
-   
+   /** @author: osm 
+    * @date: 2024. 5.30
+    * @param: paramMap,
+    * @function: loginID 중복체크
+    * @return: 
+    * @description:                
+    * */
    /*loginID 중복체크 - 5.31 확인 중*/
    @RequestMapping(value="doCheckDuplicLoginID.do")
    @ResponseBody

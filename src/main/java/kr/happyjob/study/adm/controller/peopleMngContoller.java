@@ -46,7 +46,7 @@ public class peopleMngContoller {
      * @date: 2024.5.29
      * @param: -
      * @return: 전체 인원(관리자, 강사, 학생)   
-     * @function: 인원 전체를 부러온다. 
+     * @function: 인원 전체를 불러온다. 
      * @description: response 값을 반활 할 때반드시 @ResponseBody를 붙여줘야 함 
      *   - 그렇지 않으면(.jsp)html태그 로 인지 
      * */ 
@@ -81,10 +81,12 @@ public class peopleMngContoller {
 	
    /** @author: osm 
      * @date: 2024. 5.30
-     * @param: paramMap, key(=search_user) value(= email값 OR name값 OR loginID값) 
+     * @param: paramMap(= loginID, user_type, name, hp)
      * @function: 
      * @return: 검색된 사용자 또는 사용자들
-     * @description:                
+     * @description:      
+     * 
+     *           
      * */
 	@RequestMapping("doSearchForUser.do")
 	@ResponseBody //@RequestParam Map<String, Object> paramMap)
@@ -98,9 +100,9 @@ public class peopleMngContoller {
    /**
 	 *@author: osm
 	 *@date: 2024. 6.4 
-	 *@param:
-	 *@return:
-	 *
+	 *@param: Map<String, Object> paraMap(= user_type, name, email, hp)
+	 *@return: 
+	 *@function: 회원 정보를 업데이트
 	 * */
 	@RequestMapping("doUpdateUserInfo.do")
 	@ResponseBody

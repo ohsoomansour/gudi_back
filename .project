@@ -45,4 +45,10 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>workspace</name>
+			<value>file:/E:/gudi</value>
+		</variable>
+	</variableList>
 </projectDescription>

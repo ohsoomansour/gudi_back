@@ -7,8 +7,8 @@ import kr.happyjob.study.adm.model.RegisterInfoModel;
 import kr.happyjob.study.adm.model.RegisterListControlModel;
 
 public interface peopleMngService {
-	/* 2024.5.29 (수)*/
-	//회원 전체 
+	/* 2024.5.29 ~ 6.4 변경 (수)*/
+	//회원 전체 : osooman 변경 
 	List<RegisterInfoModel> getAllUsersInfo();
 	//회원 유형별 회원 조회 
 	List<RegisterInfoModel> doGetUsersByUsertype(Map<String, Object> paramMap);
