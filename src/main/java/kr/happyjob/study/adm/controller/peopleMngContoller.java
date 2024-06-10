@@ -97,6 +97,7 @@ public class peopleMngContoller {
 		resultMap.put("users", users);
 		return resultMap;
 	}
+	
    /**
 	 *@author: osm
 	 *@date: 2024. 6.4 
