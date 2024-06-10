@@ -5,8 +5,6 @@ kr.happyjob.study.adm.controller - peopleMngController.java 파일
 kr.happyjob.study.adm.dao - peopleMngDao.java 파일 
 kr.happyjob.study.adm.model - RegisterInfoModel.java                           
 kr.happyjob.study.adm.service - peopleMgService.java, poepleMngServiceImple.java
-
-
 ##회원가입 및 로그인 기능 
 kr.happyjob.study.login.controller - LoginController.java 
 kr.happyjob.study.login.dao - LoginDao.java
