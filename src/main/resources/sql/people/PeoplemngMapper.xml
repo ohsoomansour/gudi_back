@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.happyjob.study.adm.dao.peopleMngDao">
+	<select id="getAllUsersInfo"   resultType="RegiInfoModel">
+		/* 24.6.2 osooman 전체 회원 - getAllUserInfo*/
+		SELECT * FROM tb_userinfo;
+	</select>
+
+	<select id="doGetUsersByUsertype"   resultType="RegiInfoModel">
+		/*24.6.3 osooman 회원 유형에 따라 - doGetUsersByUsertype*/
+	 	SELECT * FROM tb_userinfo WHERE user_type=#{user_type} 
+	</select>
+	<select id="doSearchForUser"   resultType="RegiInfoModel"  >
+	/* 24.6.3  - 이름 또는 이메일 또는 로그인 아이디로 검색 기능*/
+		 SELECT 
+		 	* 
+		 FROM 
+		 	tb_userinfo
+	    WHERE 
+	    	name LIKE CONCAT ('%', #{search_word},  '%')  
+	    		OR email   LIKE CONCAT ('%', #{search_word}, '%') 
+	    		OR loginID LIKE CONCAT ('%', #{search_word}, '%') 
+	    		OR hp 	   LIKE CONCAT ('%', #{search_word}, '%')	
+	</select>
+	<update id="doUpdateUserInfo">
+		/* 24.6.4 osooman 작성 user_type, name, email, hp가 존재 하면 회원 정보 수정  */
+	 UPDATE tb_userinfo
+	    <set>
+	        <if test="user_type != null">
+	            user_type = #{user_type},
+	        </if>
+	        <if test="name != null">
+	            name = #{name},
+	        </if>
+	        <if test="email != null">
+	            email = #{email},
+	        </if>
+	        <if test="hp != null">
+	        	hp = #{hp}
+	        </if>
+	    </set>
+    WHERE loginID = #{loginID}  
+	</update>
+	
+</mapper>

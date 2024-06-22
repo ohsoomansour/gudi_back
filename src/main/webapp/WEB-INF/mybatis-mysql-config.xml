@@ -6,4 +6,7 @@
 		<!-- 단위 : 밀리세컨 25초로 셋팅 -->
 		<setting name="defaultStatementTimeout" value="25000" />
 	</settings>
+	<typeAliases>
+        <typeAlias type="kr.happyjob.study.adm.model.RegisterInfoModel" alias="RegiInfoModel" />    
+    </typeAliases>
 </configuration> 

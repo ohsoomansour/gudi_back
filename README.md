@@ -18,6 +18,7 @@
 	kr.happyjob.study.login.dao - LoginDao.java
 	kr.happyjob.study.login.model - LgInfoModel.java, UsrMnuAtrtModel.java, UsrMnuChildAtrtModel.java
 	kr.happyjob.study.login.service - LoginService.java, LoginServiceImpl.java
+	src/main/resources/login/LoginMapper.xml
 	
 ## 로그인
 + 디렉토리 경로: src/views/Login.vue
@@ -28,6 +29,6 @@
 	kr.happyjob.study.adm.dao - peopleMngDao.java 파일 
 	kr.happyjob.study.adm.model - RegisterInfoModel.java                           
 	kr.happyjob.study.adm.service - peopleMgService.java, poepleMngServiceImple.java
-
+	src/main/resources/people/PeoplemngMapper.xml
 ## 사용자 정보 수정
 + 디렉토리 경로: src/views/information/EditMember.vue
