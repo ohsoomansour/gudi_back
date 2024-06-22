@@ -13,22 +13,22 @@
 # 📌주요 기능 담당
 
 ## 회원가입 및 로그인 기능 
-+ 디렉토리 경로: 
-	kr.happyjob.study.login.controller - LoginController.java 
-	kr.happyjob.study.login.dao - LoginDao.java
-	kr.happyjob.study.login.model - LgInfoModel.java, UsrMnuAtrtModel.java, UsrMnuChildAtrtModel.java
-	kr.happyjob.study.login.service - LoginService.java, LoginServiceImpl.java
-	src/main/resources/login/LoginMapper.xml
+### 디렉토리 경로: 
++ kr.happyjob.study.login.controller - LoginController.java 
++ kr.happyjob.study.login.dao - LoginDao.java
++ kr.happyjob.study.login.model - LgInfoModel.java, UsrMnuAtrtModel.java, UsrMnuChildAtrtModel.java
++ kr.happyjob.study.login.service - LoginService.java, LoginServiceImpl.java
++ 매퍼 경로: src/main/resources/login/LoginMapper.xml
 	
 ## 로그인
 + 디렉토리 경로: src/views/Login.vue
 
 ## 인원관리 및 사용자 정보 수정
-+ 디렉토리 경로: 
-	kr.happyjob.study.adm.controller - peopleMngController.java 파일 
-	kr.happyjob.study.adm.dao - peopleMngDao.java 파일 
-	kr.happyjob.study.adm.model - RegisterInfoModel.java                           
-	kr.happyjob.study.adm.service - peopleMgService.java, poepleMngServiceImple.java
-	src/main/resources/people/PeoplemngMapper.xml
+### 디렉토리 경로: 
++ kr.happyjob.study.adm.controller - peopleMngController.java 파일 
++ kr.happyjob.study.adm.dao - peopleMngDao.java 파일 
++ kr.happyjob.study.adm.model - RegisterInfoModel.java                           
++ kr.happyjob.study.adm.service - peopleMgService.java, poepleMngServiceImple.java
++ 매퍼 경로: rc/main/resources/people/PeoplemngMapper.xml
 ## 사용자 정보 수정
 + 디렉토리 경로: src/views/information/EditMember.vue
