@@ -1,6 +1,3 @@
-
-
-
 # 프로젝트 소개
 - 유형: lms 
 - 설명: 관리자가 회원 아이디를 부여하고 대부분의 권한을 관리  
@@ -11,7 +8,7 @@
 ### ⚙️개발 환경
  + **BackEnd**: java
  + **FrontEnd**:Vue.js, Node.js
- + **Framework**: egov
+ + **Framework**: eclipse
  + **Database**: MySQL
 
 # 📌주요 기능 담당

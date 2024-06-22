@@ -34,7 +34,7 @@ public class peopleMngContoller {
 	/**
 	@Autowired
 	RegisterService registerService; */
-	
+
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
