@@ -30,5 +30,4 @@
 + kr.happyjob.study.adm.model - RegisterInfoModel.java                           
 + kr.happyjob.study.adm.service - peopleMgService.java, poepleMngServiceImple.java
 + 매퍼 경로: rc/main/resources/people/PeoplemngMapper.xml
-## 사용자 정보 수정
-+ 디렉토리 경로: src/views/information/EditMember.vue
+
